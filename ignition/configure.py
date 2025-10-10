@@ -61,10 +61,10 @@ def configure(files:list|None=None):
         files = list()
     # else: print(f'{type(files)=}')
     config = Configuration(files)
-    print(f'''Configuration:
+#     print(f'''Configuration:
 
-{pformat(config.as_dict())}
-''')
+# {pformat(config.as_dict())}
+# ''')
     return Configuration(files)
     
 if __name__ == '__main__':

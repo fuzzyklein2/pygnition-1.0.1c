@@ -16,3 +16,6 @@ var/
 *.bak
 *~
 output*
+
+# pip info
+*.egg-info
