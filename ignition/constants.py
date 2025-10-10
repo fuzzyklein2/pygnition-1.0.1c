@@ -40,7 +40,7 @@ MAIN_FILE = PROGRAM_PATH
 try:
     DOCSTR = get_docstring_from_file(MAIN_FILE)
     DOCSTR_MISSING = not bool(DOCSTR)
-except FileNotFoundError as e:
+except (FileNotFoundError, TypeError, IsADirectoryError) as e:
     print(f'{WARNING_PICT} File not found: {MAIN_FILE}')
     DOCSTR_MISSING = True
     
