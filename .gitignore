@@ -1,0 +1,18 @@
+# Jupyter
+*.ipynb
+.ipynb_checkpoints/
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Logs and temp dirs
+logs/
+temp/
+var/
+
+# Output / backups
+*.out
+*.bak
+*~
+
