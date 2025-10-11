@@ -110,81 +110,14 @@ class Settings(SimpleNamespace):
     def __init__(self, *args, **kwargs):
         super().__init__(**SETTINGS)
         self.user_data = USER_DATA_DIR
-        
-# class Settings(dict):
-#     def __init__(self, *args, piped=INPUT, _args=ARGS, config=CONFIG, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         debug(f'Initializing {self.__class__.__name__} object ...')
-#         self.input = piped
-#         self.update(dict(
-#         # self.args = _args
-#         self.env = ENV
-#         self.config = config
-#         self.cwd = Path.cwd()
-#         self.section = 'DEFAULT'
 
-#         self.name = PROGRAM_NAME
-#         self.version = VERSION
+    def dumps(self):
+        return pformat(self)
 
-#         self.appdir = PROJECT_DIR
-
-#         self.debug = debug
-#         self.warn = warn
-#         self.info = info
-#         self.critical = stop
-#         self.error = error
-
-#         self.user_data = USER_DATA_DIR
-#         self.logfile = LOG_FILE
-
-#         if not self.user_data.exists():
-#             warn("User data directory does not exist. Creating it now.")
-#             mkdir(self.user_data)
-        
-#         self.backup = self.user_data / 'backup'
-#         mkdir(self.backup)
-
-#         self.temp_dir = self.user_data / 'temp'
-#         mkdir(self.temp_dir)
-
-
-
-    # def __getitem__(self, key):
-    #     if key == 'input':
-    #         return self._input
-    #     # if key in self.args.__dict__:
-    #     #     return self.args.__dict__[key]
-
-
-    #     # Access real attributes only to avoid recursion
-    #     if hasattr(self._args, "__dict__") and key in self._args.__dict__:
-    #         return self._args.__dict__[key]
-        
-    #     if key in self.env:
-    #         return self.env[key]
-    #     if self.config:
-    #         if self.config.has_option(self.section, key):
-    #             return self.config[self.section][key]
-    #     else:
-    #         raise KeyError(f'Oops! No such setting: {key}')
-
-    # def __getattr__(self, name):
-    #     try:
-    #         debug(f'Fetching attribute: {name}')
-    #         return self.__getitem__(name)
-    #     except KeyError:
-    #         raise AttributeError(f'No such setting: {name}')
-
-# __all__ = [
-#     PROJECT_DIR,
-#     ARGS_FILE,
-#     CONFIG_FILE,
-#     LOG_FILE,
-#     ARGS,
-#     CONFIG,
-#     LOG_LEVEL,
-#     Settings
-# ]
+    def dump(self):
+        debug(f"""{self.__class__.__name__} attributes:
+{self.dumps()}
+""")
     
 if __name__ == '__main__':
     debug(f'Running {PROGRAM_NAME}')

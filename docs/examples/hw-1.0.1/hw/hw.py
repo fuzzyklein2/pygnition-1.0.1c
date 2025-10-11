@@ -14,16 +14,12 @@ For more information, see:
 from pathlib import Path
 import sys
 
+#from rich import print as rp
+#
 DEBUG = not __debug__
 
-# LOCATION_PATH = Path.home() / '.ignition/location.txt'
-# IGNITION_PATH = LOCATION_PATH.read_text().strip()
-
-# sys.path.insert(0, str(IGNITION_PATH))
-# from ignition.program import *
-
-from ignition import Program, rp
 from ignition.lumberjack import *
+from ignition.program import Program
 
 class HW(Program):
     def __init__(self):

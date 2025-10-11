@@ -14,7 +14,9 @@ For more information, see:
 from pathlib import Path
 import sys
 
-DEBUG = not __debug__
+from rich import print as rp
+
+# DEBUG = not __debug__
 
 # LOCATION_PATH = Path.home() / '.ignition/location.txt'
 # IGNITION_PATH = LOCATION_PATH.read_text().strip()
@@ -22,6 +24,7 @@ DEBUG = not __debug__
 # sys.path.insert(0, str(IGNITION_PATH))
 from ignition.driver import Driver
 from ignition.lumberjack import debug
+from ignition.picts import *
 from ignition.tools import get_func_name
 
 class WS(Driver):
@@ -40,6 +43,8 @@ class WS(Driver):
         
         self.project = None
         # self.current_cmd = None
+
+        # if self.debug: self.dump()
 
     class Create(Driver.Command):
         def __init__(self, name, line):
@@ -78,9 +83,7 @@ class WS(Driver):
         del self._project
             
 if __name__ == '__main__':
-    if DEBUG:
-        rp(f"{WARNING_PICT}[yellow bold]WARNING[/yellow bold]: {PROGRAM_NAME} is under construction! {CONSTRUCTION_PICT}")
-
-        
-        
-        Workshop().run()
+    rp(f"{WARNING_PICT}[yellow bold]WARNING[/yellow bold]: {PROGRAM_NAME} is under construction! {CONSTRUCTION_PICT}")
+    ws = WS()
+    ws.dump()
+    ws.run()
