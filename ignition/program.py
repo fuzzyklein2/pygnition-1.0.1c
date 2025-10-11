@@ -27,8 +27,9 @@ class Program(Settings):
         info(f'Hello, {GLOBE_AMERICA_PICT.strip()} !')
 
     def shutdown(self):
-        print(f"{CHECK_PICT}Execution complete.")
-        print(f'{WAVE_PICT}Goodbye!')
+        if self.verbose:
+            print(f"{CHECK_PICT}Execution complete.")
+            print(f'{WAVE_PICT}Goodbye!')
 
 if __name__ == '__main__':
     Program().run()

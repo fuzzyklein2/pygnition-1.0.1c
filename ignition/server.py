@@ -114,9 +114,9 @@ ConfigParser: {self.config}
         with MyTCPServer((self.host, self.port), handler) as self.httpd:
             # info(f'Serving project at {self.project_dir} on {self.host}:{self.port}')
 
-            index_file = self.project_dir / 'index.html'
-            if index_file.exists():
-                webbrowser.open(f'http://{self.host}:{self.port}/index.html')
+            # index_file = self.project_dir / 'index.html'
+            # if index_file.exists():
+            #     webbrowser.open(f'http://{self.host}:{self.port}/index.html')
 
             try:
                 self.httpd.serve_forever()
