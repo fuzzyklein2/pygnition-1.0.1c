@@ -16,17 +16,27 @@ import sys
 
 DEBUG = not __debug__
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
-IGNITION_PATH = LOCATION_PATH.read_text().strip()
+# LOCATION_PATH = Path.home() / '.ignition/location.txt'
+# IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
-sys.path.insert(0, str(IGNITION_PATH))
-from ignition.program import *
+# sys.path.insert(0, str(IGNITION_PATH))
+# from ignition.program import *
+
+from ignition import Program, rp
+from ignition.lumberjack import *
 
 class HW(Program):
     def __init__(self):
         super().__init__()
+        # self.debug(f'Initializing program {PROGRAM_NAME} ...')
+        # self.debug(f'{self.testing=}')
+
+    def test(self):
+        self.warn(f'{self.name} is under construction!')
 
 if __name__ == '__main__':
-    if DEBUG:
-        rp(f"{WARNING_PICT}[yellow bold]WARNING[/yellow bold]: {PROGRAM_NAME} is under construction! {CONSTRUCTION_PICT}")
-        Program().run()
+    p = HW()
+    if p.testing:
+        p.test()
+    else:
+        p.run()

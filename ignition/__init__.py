@@ -11,4 +11,15 @@
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-# from .constants import PROGRAM
+# from .imports import rp
+
+# # Lazy import to avoid circular or premature import warnings
+# import importlib
+
+# def __getattr__(name):
+#     if name == "Program":
+#         mod = importlib.import_module(".program", __name__)
+#         return mod.Program
+#     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+# __all__ = ["Program"]

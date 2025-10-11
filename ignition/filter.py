@@ -21,7 +21,7 @@ except ImportError:
 class Filter(Program):
     def __init__(self):
         super().__init__()
-        self.paths = [Path(f) for f in ARGS.args]
+        self.paths = [Path(f) for f in self.args]
         if TESTING: print(f"""{DEBUG_PICT} Filter Paths:
 
 {pformat(self.paths)}

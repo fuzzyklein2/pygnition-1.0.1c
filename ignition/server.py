@@ -11,6 +11,7 @@ For more information, see:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
+import atexit
 import http.server
 from pathlib import Path
 import socketserver
@@ -26,6 +27,7 @@ LOCATION_PATH = Path.home() / '.ignition/location.txt'
 IGNITION_PATH = LOCATION_PATH.read_text().strip()
 sys.path.insert(0, str(IGNITION_PATH))
 
+from ignition.picts import *
 from ignition.settings import *
 
 class MyTCPServer(socketserver.TCPServer):

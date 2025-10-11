@@ -16,11 +16,13 @@ import sys
 
 DEBUG = not __debug__
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
-IGNITION_PATH = LOCATION_PATH.read_text().strip()
+# LOCATION_PATH = Path.home() / '.ignition/location.txt'
+# IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
-sys.path.insert(0, str(IGNITION_PATH))
-from ignition.driver import *
+# sys.path.insert(0, str(IGNITION_PATH))
+from ignition.driver import Driver
+from ignition.lumberjack import debug
+from ignition.tools import get_func_name
 
 class WS(Driver):
     def __init__(self):

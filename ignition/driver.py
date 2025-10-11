@@ -14,10 +14,30 @@ For more information, see:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-if __package__:
-    from .program import *
-else:
-    from program import *
+# if __package__:
+#     from .program import *
+# else:
+#     from program import *
+
+# from cmd import Cmd
+# import logging
+# from pathlib import Path
+
+# from ignition import Program
+# from ignition.tools import get_func_name
+
+from argparse import ArgumentParser as AP
+from cmd import Cmd
+import logging
+from pathlib import Path
+import shlex
+
+from ignition.arguments import get_args
+from ignition.configure import configure
+from ignition.constants import EPILOG
+from ignition.lumberjack import debug, error, info, stop, warn
+from ignition.program import Program
+from ignition.settings import Settings
 
 class Driver(Cmd, Program):
 
@@ -54,28 +74,26 @@ class Driver(Cmd, Program):
             self.log.debug(f'Running the {self.name} command ...')
             
     def __init__(self, *args, **kwargs):
-        debug(f'Initializing {self.__class__.__name__} object ...')
-        # Cmd.__init__(self)
-        # Program.__init__(self)
-        super().__init__(*args, **kwargs)
-        self.name = self.__class__.__name__
-        self.logger = logging.getLogger(self.name)
-        self.logger.debug(f'Initializing {self.name} object.')
-        self.appdir = PROJECT_DIR
-        self.logger.debug(f'Application directory: {self.appdir}')
-        self.user_data = Path.home() / f'.{self.__class__.__name__.lower()}'
-        self.logger.debug(f'User data directory: {self.user_data}')
+        Cmd.__init__(self)
+        Program.__init__(self)
+        # super().__init__(*args, **kwargs)
+        # self.name = self.__class__.__name__
+        # self.logger = logging.getLogger(self.name)
+        # self.logger.debug(f'Initializing {self.name} object.')
+        # self.logger.debug(f'Application directory: {self.appdir}')
+        # # self.user_data = Path.home() / f'.{self.__class__.__name__.lower()}'
+        # self.logger.debug(f'User data directory: {self.user_data}')
         self.current_cmd = None
 
-        if not self.user_data.exists():
-            warn("User data directory does not exist. Creating it now.")
-            mkdir(self.user_data)
+        # if not self.user_data.exists():
+        #     warn("User data directory does not exist. Creating it now.")
+        #     mkdir(self.user_data)
         
-        self.backup = self.user_data / 'backup'
-        mkdir(self.backup)
+        # self.backup = self.user_data / 'backup'
+        # mkdir(self.backup)
 
-        self.temp_dir = self.user_data / 'temp'
-        mkdir(self.temp_dir)
+        # self.temp_dir = self.user_data / 'temp'
+        # mkdir(self.temp_dir)
 
 
     def do_command(self, name:str, line:str):
@@ -87,29 +105,29 @@ class Driver(Cmd, Program):
         getattr(self, f'{name.title()}')(name, line).run()
 
 
-    @property
-    def appdir(self):
-        return self._workshop
+    # @property
+    # def appdir(self):
+    #     return self._workshop
 
-    @appdir.setter
-    def appdir(self, p:Path):
-        self._workshop = p
+    # @appdir.setter
+    # def appdir(self, p:Path):
+    #     self._workshop = p
 
-    @appdir.deleter
-    def appdir(self):
-        del self._workshop
+    # @appdir.deleter
+    # def appdir(self):
+    #     del self._workshop
 
-    @property
-    def user_data(self):
-        return self._user_data
+    # @property
+    # def user_data(self):
+    #     return self._user_data
 
-    @user_data.setter
-    def user_data(self, p:Path):
-        self._user_data = p
+    # @user_data.setter
+    # def user_data(self, p:Path):
+    #     self._user_data = p
 
-    @user_data.deleter
-    def user_data(self):
-        del self._user_data
+    # @user_data.deleter
+    # def user_data(self):
+    #     del self._user_data
 
     @property
     def current_cmd(self):
