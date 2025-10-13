@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="ignition",
+    name="pygnition",
     version="1.0.1",
     packages=find_packages(),
     include_package_data=True,  # include non-Python files listed in MANIFEST.in
@@ -17,7 +17,7 @@ setup(
     entry_points={
         # Optional: if you have a CLI script
         "console_scripts": [
-            # "ignition-cli = ignition.scripts.main:main"
+            # "pygnition.cli = pygnition.scripts.main:main"
         ]
     },
 )

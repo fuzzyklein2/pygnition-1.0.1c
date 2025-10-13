@@ -13,12 +13,11 @@ This module:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-# from argparse import ArgumentParser as AP
+from argparse import ArgumentParser as AP
 
-if __package__:
-    from .constants import *
-else:
-    from constants import *
+import pandas as pd
+from pathlib import Path
+import sys
 
 def get_args(p:Path|str)->list[list[list|dict]]|None:
     """ Look for arguments in a CSV.
@@ -31,7 +30,7 @@ def get_args(p:Path|str)->list[list[list|dict]]|None:
     for i in range(len(df)):
         L = list()
         L2 = list()
-        
+
         SHORT = df.at[i, 'short']
         if SHORT:
             L2.append(SHORT)
@@ -41,10 +40,10 @@ def get_args(p:Path|str)->list[list[list|dict]]|None:
 
         # @bug Typing one hyphen instead of 2 for long options
         #      can cause havoc with options that take files...
-        
+
         L.append(L2)
         D = dict()
-    
+
         for c in df:
             if not c in {'short', 'long'}:
                 value = df.at[i, c]
@@ -65,7 +64,7 @@ def parse_arguments(arg_file:Path|str,
                      {"action": "version",
                       "version": f"{program_name} {program_version}",
                       "help": "Display the program name and version, then exit."}])
-    
+
 
     ap = AP(prog=program_name, description=description, epilog=epilog)
     for option in STD_OPTS:

@@ -20,10 +20,18 @@ https://github.com/fuzzyklein2/workshop-0.0.1b
 # ---------------------------
 # System imports
 # ---------------------------
-try:
-    from .imports import *
-except ImportError:
-    from imports import *
+# try:
+#     from .imports import *
+# except ImportError:
+#     from imports import
+
+from enum import auto, Enum
+from inspect import getsourcefile
+import os
+from pathlib import Path
+import sys
+
+from pygnition.imports import import_chain
 
 # ---------------------------
 # Program environment
@@ -92,7 +100,7 @@ elif "ipykernel" in sys.modules:
     RUNNING_IN_JUPYTER = True
     INTERPRETER = Interpreters.JUPYTER
     CALLING_MODULE = first_after_last_digits(CALLERS)
-    
+
 elif "IPython" in sys.modules:
     RUNNING_CONSOLE = True
     INTERPRETER = Interpreters.IPYTHON
@@ -132,13 +140,25 @@ PROGRAM_NAME = PROJECT_DIR.stem.split('-')[0]
 # ---------------------------
 PROJECT_NAME = PROGRAM_NAME
 
+# ---------------------------
+# Ensure that we have a PYGNITION_LOCATION environment variable for PyGTK
+# and other scripts that require `python3` (3.12 at present), not >=3.13
+# ---------------------------
+PYGNITION_DIRECTORY = Path(getsourcefile(Interpreters)).parent.parent
+
 try:
-    IGNITION_DIR = Path(getsourcefile(Interpreters)).parent.parent
-except Exception:
-    IGNITION_DIR = PROJECT_DIR
+    from pygnition.ignition import *
+except (ImportError, ModuleNotFoundError) as e:
+    try:
+        sys.path.insert(0, PYGNITION_DIRECTORY)
+        from pygnition.ignition import *
+    except Exception:
+        print(f'Pygnition import failed!')
 
 USER_DATA_DIR = Path.home() / f".{PROJECT_NAME}"
 USER_PREFS_DIR = USER_DATA_DIR / "etc"
+
+
 
 # ---------------------------
 # Command line flags
@@ -149,21 +169,22 @@ WARNINGS = bool({'-w', '--warnings'}.intersection(sys.argv))
 TESTING = bool({'-t', '--test'}.intersection(sys.argv))
 
 def display_where_info():
-    """Test this module from any program that imports it."""
+    """Test this module from any PYGNITION_DIRECTORY imports it."""
     print(f"Running: {PROGRAM_NAME}")
     print(f"Program path: {PROGRAM_PATH}")
-    print(f"Ignition directory: {IGNITION_DIR}")
+    print(f"Ignition directory: {PYGNITION_DIRECTORY}")
     print(f"Project directory: {PROJECT_DIR}")
     print(f"User data directory: {USER_DATA_DIR}")
     print(f"Interpreter: {INTERPRETER.name}")
     print(f"RUNNING_CLI={RUNNING_CLI}, RUNNING_IN_JUPYTER={RUNNING_IN_JUPYTER}, "
           f"RUNNING_CONSOLE={RUNNING_CONSOLE}, RUNNING_GATEWAY={RUNNING_GATEWAY}")
 
-if not RUNNING_CLI and not RUNNING_GATEWAY:
-    display_where_info()
-    
+# if not RUNNING_CLI and not RUNNING_GATEWAY:
+#     display_where_info()
+
 # ---------------------------
 # Optional: display info if testing
 # ---------------------------
-if __name__ == "__main__" and TESTING:
+if __name__ == "__main__":
+    print('Running where')
     display_where_info()

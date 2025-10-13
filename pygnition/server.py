@@ -21,14 +21,16 @@ import webbrowser
 
 # DEBUG = not __debug__
 
-# This block is temporary until `ignition` is actually installed.
+# This block is temporary until `pygnition. is actually installed.
 # I don't want to make re-installing it a constant part of testing it yet.
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
+'''
+LOCATION_PATH = Path.home() / '.pygnition.location.txt'
 IGNITION_PATH = LOCATION_PATH.read_text().strip()
 sys.path.insert(0, str(IGNITION_PATH))
+'''
 
-from ignition.picts import *
-from ignition.settings import *
+from pygnition.picts import *
+from pygnition.settings import *
 
 class MyTCPServer(socketserver.TCPServer):
     def __init__(self, server_address, RequestHandlerClass):
@@ -46,7 +48,7 @@ class Server(Settings):
         # if not config_file.exists():
         #     config_file = PROJECT_DIR / 'etc/config.ini'
         # if not config_file.exists():
-        #     config_file = IGNITION_DIR / 'etc/config.ini'
+        #     config_file = PYGNITION_DIRECTORY / 'etc/config.ini'
         # assert(config_file.exists())
         # super().__init__(config=configure(config_file))
         # if not hasattr(self, 'host'):
@@ -105,7 +107,7 @@ ConfigParser: {self.config}
             self.thread.start()
         except OSError as e:
             print(e)
-            
+
         info(f'Server thread started on {self.host}:{self.port}')
 
     def _serve(self):

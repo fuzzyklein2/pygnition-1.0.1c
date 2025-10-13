@@ -14,10 +14,4 @@ For more information, see:
 from .hw import *
 
 if __name__ == '__main__':
-#     if TESTING:
-#         print(f"""Testing {PROGRAM_NAME}
-# {PROGRAM_PATH=}
-# {PROJECT_DIR=}
-# {USER_DATA_DIR=}
-# """)
     HW().run()

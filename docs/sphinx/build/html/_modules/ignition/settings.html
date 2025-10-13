@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ignition.settings &#8212; 🔥ignition🔥 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=cb25574f" />
+    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ignition.settings</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@file program.py</span>
+<span class="sd">@version 1.0.1</span>
+<span class="sd">@brief Consolidates input into a single object and runs.</span>
+
+<span class="sd">This module:</span>
+
+<span class="sd">    * Defines the `Program` class.</span>
+
+<span class="sd">For more information, see:</span>
+<span class="sd">https://github.com/fuzzyklein2/workshop-0.0.1b</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pformat</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+
+<span class="c1"># try:</span>
+<span class="c1">#     from .arguments import *</span>
+<span class="c1">#     from .environment import Environment</span>
+<span class="c1">#     from .configure import *</span>
+<span class="c1">#     from .lumberjack import *</span>
+<span class="c1"># except ImportError:</span>
+
+<span class="kn">from</span> <span class="nn">ignition.arguments</span> <span class="kn">import</span> <span class="n">parse_arguments</span>
+<span class="kn">from</span> <span class="nn">ignition.configure</span> <span class="kn">import</span> <span class="n">configure</span>
+<span class="kn">from</span> <span class="nn">ignition.constants</span> <span class="kn">import</span> <span class="n">DESCRIPTION</span><span class="p">,</span> <span class="n">EPILOG</span><span class="p">,</span> <span class="n">VERSION</span>
+<span class="kn">from</span> <span class="nn">ignition.environment</span> <span class="kn">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">ignition.lumberjack</span> <span class="kn">import</span> <span class="n">debug</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">setuplog</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">warn</span>
+<span class="kn">from</span> <span class="nn">ignition.stdinput</span> <span class="kn">import</span> <span class="n">get_piped_input</span>
+<span class="kn">from</span> <span class="nn">ignition.tools</span> <span class="kn">import</span> <span class="n">mkdir</span>
+<span class="kn">from</span> <span class="nn">ignition.where</span> <span class="kn">import</span> <span class="n">PYGNITION_DIRECTORY</span><span class="p">,</span> <span class="n">PROGRAM_NAME</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">,</span> <span class="n">RUNNING_CLI</span><span class="p">,</span> \
+                           <span class="n">USER_DATA_DIR</span><span class="p">,</span> <span class="n">USER_PREFS_DIR</span>
+
+<span class="c1"># breakpoint()</span>
+<span class="n">INPUT</span> <span class="o">=</span> <span class="n">get_piped_input</span><span class="p">()</span>
+
+<span class="c1"># PROJECT_DIR = Path(__file__).resolve().parent.parent if RUNNING_CLI else Path(os.curdir).resolve()</span>
+<span class="n">ARGS_FILE</span> <span class="o">=</span> <span class="n">PROJECT_DIR</span> <span class="o">/</span> <span class="s1">&#39;data/std_opts.csv&#39;</span>
+<span class="c1"># CONFIG_FILE = USER_DATA_DIR / f&#39;etc/{PROGRAM_NAME}.cfg&#39;</span>
+<span class="c1"># if not CONFIG_FILE.exists():</span>
+
+<span class="c1"># CONFIG_FILE = PROJECT_DIR / &#39;etc/config.ini&#39;</span>
+<span class="c1"># LOG_FILE = PROJECT_DIR / f&#39;logs/{PROGRAM_NAME}.log&#39;</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">USER_PREFS_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">mkdir</span><span class="p">(</span><span class="n">USER_PREFS_DIR</span><span class="p">)</span>
+<span class="n">CONFIG_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="n">USER_PREFS_DIR</span> <span class="o">/</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">USER_PREFS_DIR</span><span class="p">)</span> <span class="k">if</span> <span class="n">Path</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;.ini&#39;</span><span class="p">,</span> <span class="s1">&#39;.cfg&#39;</span><span class="p">}]</span>
+<span class="n">LOG_FILE</span> <span class="o">=</span> <span class="n">USER_DATA_DIR</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;logs/</span><span class="si">{</span><span class="n">PROGRAM_NAME</span><span class="si">}</span><span class="s1">.log&#39;</span>
+
+<span class="c1"># assert(PROJECT_DIR.exists())</span>
+<span class="c1"># assert(ARGS_FILE.exists())</span>
+<span class="c1"># assert(CONFIG_FILE.exists())</span>
+
+<span class="n">ARGS</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">if</span> <span class="n">RUNNING_CLI</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ARGS_FILE</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">ARGS</span> <span class="o">=</span> <span class="n">parse_arguments</span><span class="p">(</span><span class="n">ARGS_FILE</span><span class="p">,</span> <span class="n">PROGRAM_NAME</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">,</span> <span class="n">DESCRIPTION</span><span class="p">,</span> <span class="n">EPILOG</span><span class="p">)</span>
+
+<span class="c1"># assert(ARGS)</span>
+
+<span class="k">if</span> <span class="n">ARGS</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ARGS</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
+            <span class="n">CONFIG_FILES</span> <span class="o">=</span> <span class="p">[</span><span class="n">ARGS</span><span class="o">.</span><span class="n">config</span><span class="p">]</span>
+
+<span class="n">ENV</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+
+<span class="c1"># print(&#39;Configuration file: &#39; + str(CONFIG_FILE))</span>
+<span class="n">CONFIG</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">if</span> <span class="n">CONFIG_FILES</span><span class="p">:</span>
+    <span class="n">CONFIG</span> <span class="o">=</span> <span class="n">configure</span><span class="p">(</span><span class="n">CONFIG_FILES</span><span class="p">)</span><span class="o">.</span><span class="n">config</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">mkdir</span><span class="p">(</span><span class="n">USER_DATA_DIR</span> <span class="o">/</span> <span class="s1">&#39;etc&#39;</span><span class="p">)</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">PYGNITION_DIRECTORY</span> <span class="o">/</span> <span class="s1">&#39;etc/server.cfg&#39;</span><span class="p">,</span> <span class="n">USER_DATA_DIR</span> <span class="o">/</span> <span class="s1">&#39;etc/server.cfg&#39;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">ARGS</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ARGS</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">log</span><span class="p">:</span>
+            <span class="n">LOG_FILE</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">log</span>
+<span class="k">elif</span> <span class="n">CONFIG</span> <span class="ow">and</span> <span class="p">(</span><span class="s1">&#39;LOG_FILE&#39;</span> <span class="ow">in</span> <span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+    <span class="n">LOG_FILE</span> <span class="o">=</span> <span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">][</span><span class="s1">&#39;LOG_FILE&#39;</span><span class="p">]</span>
+<span class="c1"># LOG_FILE = ARGS.LOG_FILE if ARGS.LOG_FILE else CONFIG[&#39;DEFAULT&#39;][&#39;LOG_FILE&#39;]</span>
+
+<span class="c1"># print(f&#39;{ARGS=}&#39;)</span>
+
+<span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span>
+
+<span class="k">if</span> <span class="n">ARGS</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">debug</span> <span class="ow">or</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">testing</span><span class="p">:</span>
+        <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span>
+    <span class="k">elif</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+        <span class="n">LOG_LEVEL</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span>
+
+<span class="c1"># print(f&#39;{LOG_FILE=}\n{LOG_LEVEL=}&#39;)</span>
+
+<span class="k">if</span> <span class="n">LOG_FILE</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+    <span class="n">setuplog</span><span class="p">(</span><span class="n">LOG_FILE</span><span class="p">,</span> <span class="n">LOG_LEVEL</span><span class="p">)</span>
+
+<span class="n">SETTINGS</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">CONFIG</span><span class="p">:</span> <span class="n">SETTINGS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">]))</span>
+<span class="k">if</span> <span class="n">ENV</span><span class="p">:</span> <span class="n">SETTINGS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ENV</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">ARGS</span><span class="p">:</span> <span class="n">SETTINGS</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">vars</span><span class="p">(</span><span class="n">ARGS</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">INPUT</span><span class="p">:</span> <span class="n">SETTINGS</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;input&#39;</span><span class="p">,</span> <span class="n">INPUT</span><span class="p">})</span>
+
+<div class="viewcode-block" id="Settings">
+<a class="viewcode-back" href="../../ignition.html#ignition.settings.Settings">[docs]</a>
+<span class="k">class</span> <span class="nc">Settings</span><span class="p">(</span><span class="n">SimpleNamespace</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">SETTINGS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">PROGRAM_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_data</span> <span class="o">=</span> <span class="n">USER_DATA_DIR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_files</span> <span class="o">=</span> <span class="n">CONFIG_FILES</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">app_dir</span> <span class="o">=</span> <span class="n">PROJECT_DIR</span>
+
+<div class="viewcode-block" id="Settings.dumps">
+<a class="viewcode-back" href="../../ignition.html#ignition.settings.Settings.dumps">[docs]</a>
+    <span class="k">def</span> <span class="nf">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">ARGS</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;args&#39;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">Application directory: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">app_dir</span><span class="si">}</span>
+<span class="s1">Data directory:        </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">user_data</span><span class="si">}</span>
+
+<span class="s1">Command line options:</span>
+<span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s1">Command line arguments:</span>
+<span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s1">    Defined in </span><span class="si">{</span><span class="n">ARGS_FILE</span><span class="si">}</span>
+
+<span class="s1">Environment variables:</span>
+<span class="si">{</span><span class="n">ENV</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span><span class="si">}</span>
+
+<span class="s1">Configuration files:</span>
+<span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_files</span><span class="p">)</span><span class="si">}</span>
+
+<span class="s1">Configuration:</span>
+<span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">]))</span><span class="si">}</span><span class="s1">&#39;&#39;&#39;</span></div>
+
+
+<div class="viewcode-block" id="Settings.dump">
+<a class="viewcode-back" href="../../ignition.html#ignition.settings.Settings.dump">[docs]</a>
+    <span class="k">def</span> <span class="nf">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> settings:</span>
+<span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">dumps</span><span class="p">()</span><span class="si">}</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span></div>
+</div>
+
+    
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Running </span><span class="si">{</span><span class="n">PROGRAM_NAME</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">ARGS</span><span class="p">)</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">CONFIG</span><span class="p">[</span><span class="s1">&#39;DEFAULT&#39;</span><span class="p">])</span><span class="si">=}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;Settings:</span>
+<span class="si">{</span><span class="n">pformat</span><span class="p">(</span><span class="n">Settings</span><span class="p">())</span><span class="si">}</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+    <span class="c1"># s = Settings()</span>
+    <span class="c1"># debug(f&#39;{s.debug=}&#39;)</span>
+    <span class="c1"># debug(f&#39;{s.input=}&#39;)</span>
+    <span class="c1"># debug(f&#39;{s.args=}&#39;)</span>
+    <span class="c1"># debug(f&#39;{dict(s.config[s.section]=}&#39;)</span>
+    <span class="c1"># debug(f&#39;{s.logfile=}&#39;)</span>
+    
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">🔥ignition🔥</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2025, Russell Klein.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

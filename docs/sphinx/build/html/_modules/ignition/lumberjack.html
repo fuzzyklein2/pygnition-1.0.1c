@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ignition.lumberjack &#8212; 🔥ignition🔥 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=cb25574f" />
+    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ignition.lumberjack</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@file lumberjack.py</span>
+<span class="sd">@version 1.2.3</span>
+<span class="sd">@brief Set up logging for whatever script calls it.</span>
+
+<span class="sd">This module:</span>
+
+<span class="sd">    * Parses arguments.</span>
+<span class="sd">    * Sets up logging.</span>
+<span class="sd">    * Imports config files.</span>
+
+<span class="sd">    For more information, see:</span>
+<span class="sd">    https://github.com/fuzzyklein2/workshop-0.0.1b</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># from enum import auto, Enum</span>
+<span class="c1"># from glob import glob</span>
+<span class="c1"># import logging</span>
+<span class="c1"># import os</span>
+<span class="c1"># from pathlib import Path</span>
+<span class="c1"># from pprint import pformat</span>
+<span class="c1"># from subprocess import run</span>
+<span class="c1"># import sys</span>
+
+<span class="k">if</span> <span class="n">__package__</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">.tools</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">tools</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># ap = AP(prog=PROGRAM, description=DESCRIPTION, epilog=EPILOG)</span>
+<span class="c1"># for option in STD_OPTS:</span>
+<span class="c1">#     ap.add_argument(*option[0], **option[1])</span>
+
+<span class="c1"># ARGS = ap.parse_args(sys.argv[1:])</span>
+                     
+<span class="c1"># if __debug__:</span>
+<span class="c1">#     print(f&#39;{ARGS.debug=}&#39;)</span>
+<span class="c1">#     print(f&#39;{ARGS.verbose=}&#39;)</span>
+
+<span class="c1"># DEBUG = bool({&#39;-d&#39;, &#39;--debug&#39;}.intersection(sys.argv))</span>
+<span class="c1"># VERBOSE = bool({&#39;-v&#39;, &#39;--verbose&#39;}.intersection(sys.argv))</span>
+<span class="c1"># WARNINGS = bool({&#39;-w&#39;, &#39;--warnings&#39;}.intersection(sys.argv))</span>
+<span class="c1"># TESTING = bool({&#39;-t&#39;, &#39;--test&#39;}.intersection(sys.argv))</span>
+
+<span class="c1"># if VERBOSE:</span>
+<span class="c1">#     print(f&quot;{WARNING_PICT}{color_str(&#39;yellow&#39;, &quot;WARNING!&quot;)} {color_str(&#39;green&#39;, PROGRAM)} is under construction!{CONSTRUCTION_PICT}&quot;)</span>
+
+<span class="n">LOG_PICTS</span> <span class="o">=</span> <span class="p">{</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">:</span> <span class="n">DEBUG_PICT</span><span class="p">,</span>
+              <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">:</span> <span class="n">INFO_PICT</span><span class="p">,</span>
+              <span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">:</span> <span class="n">WARNING_PICT</span><span class="p">,</span>
+              <span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span> <span class="n">ERROR_PICT</span><span class="p">,</span>
+              <span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">:</span> <span class="n">CRITICAL_PICT</span>
+            <span class="p">}</span>
+
+<div class="viewcode-block" id="setuplog">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.setuplog">[docs]</a>
+<span class="k">def</span> <span class="nf">setuplog</span><span class="p">(</span><span class="n">LOGFILE</span><span class="p">:</span><span class="n">Path</span><span class="o">|</span><span class="nb">str</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">LOGFILE</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">LOGFILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">LOGFILE</span><span class="p">)</span>
+    
+    <span class="c1"># if not LOGFILE.exists():</span>
+    <span class="c1">#     LOGFILE.parent.mkdir(parents=True, exist_ok=True)</span>
+    <span class="c1">#     LOGFILE.touch()</span>
+    
+    
+    <span class="c1"># if DEBUG:</span>
+    <span class="c1">#     level = logging.DEBUG</span>
+    <span class="c1"># elif VERBOSE:</span>
+    <span class="c1">#     level = logging.INFO</span>
+    <span class="c1"># elif WARNINGS or TESTING:</span>
+    <span class="c1">#     level = logging.WARNING</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     level = logging.ERROR</span>
+    
+    <span class="k">if</span> <span class="n">LOGFILE</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">LOGFILE</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOGFILE</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    
+    <span class="c1"># # Determine logging level</span>
+    <span class="c1"># level = logging.DEBUG  # or INFO/WARNING depending on your flags</span>
+    
+    <span class="c1"># Create logger</span>
+    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">level</span><span class="p">)</span>
+    
+    <span class="c1"># Formatter</span>
+    <span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># formatter = logging.Formatter(f&#39;{LOG_PICTS</span>
+    
+    <span class="c1"># Console handler</span>
+    <span class="n">console_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+    <span class="n">console_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">console_handler</span><span class="p">)</span>
+    
+    <span class="c1"># File handler</span>
+    <span class="n">file_handler</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="n">LOGFILE</span><span class="p">)</span>
+    <span class="n">file_handler</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">file_handler</span><span class="p">)</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">GEAR_PICT</span><span class="si">}</span><span class="s2">Logging configuration complete.&quot;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">LOG_PICT</span><span class="si">}</span><span class="s1">Log file: </span><span class="si">{</span><span class="n">LOGFILE</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">current_clock_pict</span><span class="p">(</span><span class="n">now</span><span class="p">)</span><span class="si">}</span><span class="s1">Current time: </span><span class="si">{</span><span class="n">now</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">logger</span></div>
+
+
+<div class="viewcode-block" id="log">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.log">[docs]</a>
+<span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">NEWLINE</span> <span class="ow">in</span> <span class="n">message</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">LOG_PICTS</span><span class="p">[</span><span class="n">level</span><span class="p">]</span><span class="si">}{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+    <span class="c1"># if NEWLINE in message:</span>
+    <span class="c1">#     logging.log(level, &#39;&#39;)</span>
+
+<div class="viewcode-block" id="debug">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.debug">[docs]</a>
+<span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="info">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.info">[docs]</a>
+<span class="k">def</span> <span class="nf">info</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="warn">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.warn">[docs]</a>
+<span class="k">def</span> <span class="nf">warn</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="error">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.error">[docs]</a>
+<span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">ERROR</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="stop">
+<a class="viewcode-back" href="../../ignition.html#ignition.lumberjack.stop">[docs]</a>
+<span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">log</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">CRITICAL</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">RUNNING_CLI</span><span class="p">:</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">setuplog</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;logs/</span><span class="si">{</span><span class="n">PROGRAM_NAME</span><span class="si">}</span><span class="s1">.log&#39;</span><span class="p">,</span>
+             <span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+    <span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Testing </span><span class="si">{</span><span class="n">PROGRAM_NAME</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">🔥ignition🔥</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2025, Russell Klein.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

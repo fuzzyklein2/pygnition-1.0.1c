@@ -13,10 +13,14 @@ For more information, see:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-if __package__:
-    from .where import *
-else:
-    from where import *
+from datetime import datetime
+
+# if __package__:
+#     from .where import *
+# else:
+#     from where import *
+
+from pygnition.where import *
 
 LEADING_SPACE = ''
 if RUNNING_CLI:

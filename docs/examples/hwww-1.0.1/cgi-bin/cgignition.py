@@ -19,7 +19,7 @@ import sys
 import urllib.parse
 
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
+LOCATION_PATH = Path.home() / '.pygnition.location.txt'
 IGNITION_PATH = LOCATION_PATH.read_text().strip()
 sys.path.insert(0, str(IGNITION_PATH))
 print(f'''<html><body>
@@ -30,8 +30,8 @@ print(f'''<html><body>
 # print(f'''<html><body><p>Running <code>{__file__}</code></p>''')
 
 try:
-    from ignition.imports import *
-    print('<p><code>ignition</code> imported successfully.</p>')
+    from pygnition.imports import *
+    print('<p><code>pygnition./code> imported successfully.</p>')
 except ModuleNotFoundError:
     print(f"""<pre style="color: red; font-weight: bold">
 ERROR: Program module not found!
@@ -39,13 +39,13 @@ IGNITION_PATH={IGNITION_PATH}
     </pre>
     """)
 
-from ignition.configure import *
+from pygnition.configure import *
 print(f'<p>{CHECK_PICT}<code>configure</code> module imported successfully.</p>')
 
-from ignition.lumberjack import *
+from pygnition.lumberjack import *
 print(f'<p>{CHECK_PICT}<code>lumberjack</code> imported successfully.</p>')
 
-from ignition.environment import *
+from pygnition.environment import *
 print(f'<p>{CHECK_PICT}<code>environment</code> imported successfully.</p>')
 
 def get_cgi_params(single_values: bool = False) -> dict:
@@ -90,7 +90,7 @@ class CGISettings():
         self.params = get_cgi_params()
 
     def output(self):
-        print(f"""<p><code>cgignition</code> parameters:</p><pre style="font-weight: bold">
+        print(f"""<p><code>cgpygnition./code> parameters:</p><pre style="font-weight: bold">
 {pformat(self.params)}
 </pre>
 """)

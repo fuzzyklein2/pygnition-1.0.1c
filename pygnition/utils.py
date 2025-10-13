@@ -17,12 +17,17 @@ This module:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-if __package__:
-    from .picts import *
-    # from .responses import *
-else:
-    from picts import *
-    # from responses import *
+import ast
+from functools import singledispatch
+
+# if __package__:
+#     from .picts import *
+#     # from .responses import *
+# else:
+#     from picts import *
+#     # from responses import *
+
+from pygnition.picts import *
 
 def parse_file_for_docstr(s:str) -> str | None:
     return ast.get_docstring(ast.parse(s))

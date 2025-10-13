@@ -1,157 +1,157 @@
-ignition package
+pygnition package
 ================
 
 Submodules
 ----------
 
-ignition.arguments module
+pygnition.arguments module
 -------------------------
 
-.. automodule:: ignition.arguments
+.. automodule:: pygnition.arguments
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.configure module
+pygnition.configure module
 -------------------------
 
-.. automodule:: ignition.configure
+.. automodule:: pygnition.configure
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.constants module
+pygnition.constants module
 -------------------------
 
-.. automodule:: ignition.constants
+.. automodule:: pygnition.constants
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.driver module
+pygnition.driver module
 ----------------------
 
-.. automodule:: ignition.driver
+.. automodule:: pygnition.driver
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.environment module
+pygnition.environment module
 ---------------------------
 
-.. automodule:: ignition.environment
+.. automodule:: pygnition.environment
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.files module
+pygnition.files module
 ---------------------
 
-.. automodule:: ignition.files
+.. automodule:: pygnition.files
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.filter module
+pygnition.filter module
 ----------------------
 
-.. automodule:: ignition.filter
+.. automodule:: pygnition.filter
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.ignition module
+pygnition.pygnition module
 ------------------------
 
-.. automodule:: ignition.ignition
+.. automodule:: pygnition.pygnition
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.imports module
+pygnition.imports module
 -----------------------
 
-.. automodule:: ignition.imports
+.. automodule:: pygnition.imports
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.lumberjack module
+pygnition.lumberjack module
 --------------------------
 
-.. automodule:: ignition.lumberjack
+.. automodule:: pygnition.lumberjack
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.picts module
+pygnition.picts module
 ---------------------
 
-.. automodule:: ignition.picts
+.. automodule:: pygnition.picts
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.program module
+pygnition.program module
 -----------------------
 
-.. automodule:: ignition.program
+.. automodule:: pygnition.program
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.responses module
+pygnition.responses module
 -------------------------
 
-.. automodule:: ignition.responses
+.. automodule:: pygnition.responses
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.server module
+pygnition.server module
 ----------------------
 
-.. automodule:: ignition.server
+.. automodule:: pygnition.server
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.settings module
+pygnition.settings module
 ------------------------
 
-.. automodule:: ignition.settings
+.. automodule:: pygnition.settings
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.stdinput module
+pygnition.stdinput module
 ------------------------
 
-.. automodule:: ignition.stdinput
+.. automodule:: pygnition.stdinput
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.tools module
+pygnition.tools module
 ---------------------
 
-.. automodule:: ignition.tools
+.. automodule:: pygnition.tools
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.utils module
+pygnition.utils module
 ---------------------
 
-.. automodule:: ignition.utils
+.. automodule:: pygnition.utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-ignition.where module
+pygnition.where module
 ---------------------
 
-.. automodule:: ignition.where
+.. automodule:: pygnition.where
    :members:
    :undoc-members:
    :show-inheritance:
@@ -159,7 +159,7 @@ ignition.where module
 Module contents
 ---------------
 
-.. automodule:: ignition
+.. automodule:: pygnition
    :members:
    :undoc-members:
    :show-inheritance:

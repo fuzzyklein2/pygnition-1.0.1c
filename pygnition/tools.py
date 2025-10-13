@@ -18,23 +18,28 @@ This module:
 """
 
 # from argparse import ArgumentParser as AP
+from functools import singledispatch
 # from io import StringIO
-# import os
+import logging
+import os
 # from pathlib import Path
 # from subprocess import run
 # import sys
 
 # # from matplotlib import colors
 # import pandas as pd
+from pathlib import Path
 # from rich.color import Color
 # from rich.console import Console
 
-if __package__:
-    from .constants import *
-    from .responses import *
-else:
-    from constants import *
-    from responses import *
+#if __package__:
+#    from .constants import *
+#    from .responses import *
+# else:
+#    from constants import *
+#    from responses import *
+
+from pygnition.picts import *
 
 def pwd():
     return(f'Current working directory: {Path(os.curdir).resolve()}')
@@ -61,7 +66,7 @@ def yes_or_no(question:str, message=None)->bool:
             in AFFIRMATIVES:
         return True
     return False
-        
+
 # run_cmd = partial(run, encoding='utf-8', capture_output=True, check=True)
 
 @singledispatch

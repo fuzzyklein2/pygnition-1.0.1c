@@ -16,13 +16,13 @@ import sys
 
 DEBUG = not __debug__
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
+LOCATION_PATH = Path.home() / '.pygnition.location.txt'
 IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
 sys.path.insert(0, str(IGNITION_PATH))
 
-from ignition.files import File
-from ignition.filter import *
+from pygnition.files import File
+from pygnition.filter import *
 
 console = Console()
 

@@ -18,14 +18,14 @@ from rich import print as rp
 
 # DEBUG = not __debug__
 
-# LOCATION_PATH = Path.home() / '.ignition/location.txt'
+# LOCATION_PATH = Path.home() / '.pygnition.location.txt'
 # IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
 # sys.path.insert(0, str(IGNITION_PATH))
-from ignition.driver import Driver
-from ignition.lumberjack import debug
-from ignition.picts import *
-from ignition.tools import get_func_name
+from pygnition.driver import Driver
+from pygnition.lumberjack import debug
+from pygnition.picts import *
+from pygnition.tools import get_func_name
 
 class WS(Driver):
     def __init__(self):

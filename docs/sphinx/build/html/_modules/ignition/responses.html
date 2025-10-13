@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ignition.responses &#8212; 🔥ignition🔥 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=cb25574f" />
+    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ignition.responses</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="c1"># def normalize(s: str) -&gt; str:</span>
+<span class="c1">#     &quot;&quot;&quot;Trim and lowercase a string for comparison.&quot;&quot;&quot;</span>
+<span class="c1">#     return s.strip().lower()</span>
+
+
+<span class="c1"># def is_affirmative(s: str) -&gt; bool:</span>
+<span class="c1">#     &quot;&quot;&quot;Return True if input matches a known affirmative response.&quot;&quot;&quot;</span>
+<span class="c1">#     s = normalize(s)</span>
+<span class="c1">#     return any(s == word or s.startswith(word) for word in AFFIRMATIVES)</span>
+
+
+<span class="c1"># def is_negative(s: str) -&gt; bool:</span>
+<span class="c1">#     &quot;&quot;&quot;Return True if input matches a known negative response.&quot;&quot;&quot;</span>
+<span class="c1">#     s = normalize(s)</span>
+<span class="c1">#     return any(s == word or s.startswith(word) for word in NEGATIVES)</span>
+    
+<span class="n">AFFIRMATIVES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yes&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yep&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yup&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yea&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;yeah&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;affirmative&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sure&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;indeed&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;absolutely&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;certainly&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;of course&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;ok&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;okay&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;alright&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;roger&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;naturally&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;definitely&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;fine&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;correct&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;exactly&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;totally&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cool&quot;</span>
+<span class="p">]</span>
+
+<span class="n">NEGATIVES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;n&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;no&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nope&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nah&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;nay&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;never&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;negative&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;not&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;incorrect&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;wrong&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;none&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;refuse&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;decline&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;cannot&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;impossible&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;disagree&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stop&quot;</span>
+<span class="p">]</span>
+
+<div class="viewcode-block" id="normalize">
+<a class="viewcode-back" href="../../ignition.html#ignition.responses.normalize">[docs]</a>
+<span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Trim and lowercase a string for comparison.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="is_affirmative">
+<a class="viewcode-back" href="../../ignition.html#ignition.responses.is_affirmative">[docs]</a>
+<span class="k">def</span> <span class="nf">is_affirmative</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if input matches a known affirmative response.&quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">word</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">AFFIRMATIVES</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="is_negative">
+<a class="viewcode-back" href="../../ignition.html#ignition.responses.is_negative">[docs]</a>
+<span class="k">def</span> <span class="nf">is_negative</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if input matches a known negative response.&quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="n">word</span> <span class="ow">or</span> <span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">NEGATIVES</span><span class="p">)</span></div>
+
+
+<span class="c1"># def prompt_yes_no(prompt: str, default: str | None = None) -&gt; bool:</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     Prompt the user for a yes/no answer and return True for yes, False for no.</span>
+
+<span class="c1">#     Parameters:</span>
+<span class="c1">#         prompt: The text to show to the user.</span>
+<span class="c1">#         default: If provided (&quot;y&quot; or &quot;n&quot;), hitting enter will select this.</span>
+
+<span class="c1">#     Returns:</span>
+<span class="c1">#         True if affirmative, False if negative.</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     if default:</span>
+<span class="c1">#         prompt_text = f&quot;{prompt} [{&#39;Y&#39; if default.lower() == &#39;y&#39; else &#39;y&#39;}/{&#39;N&#39; if default.lower() == &#39;n&#39; else &#39;n&#39;}]: &quot;</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         prompt_text = f&quot;{prompt} [y/n]: &quot;</span>
+
+<span class="c1">#     while True:</span>
+<span class="c1">#         reply = input(prompt_text)</span>
+<span class="c1">#         if not reply and default:</span>
+<span class="c1">#             reply = default</span>
+<span class="c1">#         if is_affirmative(reply):</span>
+<span class="c1">#             return True</span>
+<span class="c1">#         elif is_negative(reply):</span>
+<span class="c1">#             return False</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             print(&quot;Please respond with yes or no.&quot;)</span>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">🔥ignition🔥</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2025, Russell Klein.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

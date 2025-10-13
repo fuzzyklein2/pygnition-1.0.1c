@@ -20,30 +20,18 @@ import atexit
 # else:
 #     from settings import *
 
-from ignition.lumberjack import debug, error, info, warn, stop
-from ignition.picts import *
-from ignition.settings import Settings
+from pygnition.lumberjack import debug, error, info, warn, stop
+from pygnition.picts import *
+from pygnition.settings import Settings
 
 class Program(Settings):
     def __init__(self):
         super().__init__()
         atexit.register(self.shutdown)
-        # self.user_data = Path.home() / f'.{self.__class__.__name__.lower()}'
-
-        # if not self.user_data.exists():
-        #     warn("User data directory does not exist. Creating it now.")
-        #     mkdir(self.user_data)
-        
-        # self.backup = self.user_data / 'backup'
-        # mkdir(self.backup)
-
-        # self.temp_dir = self.user_data / 'temp'
-        # mkdir(self.temp_dir)
-
-
     
     def run(self):
-        info(f'Hello, {GLOBE_AMERICA_PICT.strip()} !')
+        debug(f'Running {self.name}')
+        if self.testing: self.test()
 
     def shutdown(self):
         if self.verbose:

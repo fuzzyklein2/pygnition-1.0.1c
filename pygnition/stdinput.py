@@ -13,13 +13,10 @@ For more information, see:
 https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
+import sys
 # from rich import print as rp
 
-if __package__:
-    from .constants import *
-else:
-    from constants import *
-    
+
 def get_piped_input() -> str|None:
     if not sys.stdin.isatty():
         INPUT = sys.stdin.read()

@@ -16,13 +16,13 @@ import sys
 
 # DEBUG = not __debug__
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
-IGNITION_PATH = LOCATION_PATH.read_text().strip()
+# LOCATION_PATH = Path.home() / '.pygnition.location.txt'
+# IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
-sys.path.insert(0, str(IGNITION_PATH))
-# from ignition.program import *
-from ignition.driver import *
-from ignition.server import *
+# sys.path.insert(0, str(IGNITION_PATH))
+# from pygnition.program import *
+from pygnition.driver import *
+from pygnition.server import *
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent
 

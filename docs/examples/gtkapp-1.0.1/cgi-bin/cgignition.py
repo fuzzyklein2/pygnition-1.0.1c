@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/home/fuzzy/python-3.13.2/bin/python3.13
 
 """
 @file hw.py
@@ -12,16 +12,19 @@ For more information, see:
 """
 
 # The initial output of any CGI script is mandatory.
-print('Content-Type: text/html\n')                  
+
+print('Content-Type: text/html\n\n')
 
 from pathlib import Path
+from pprint import pformat
 import sys
 import urllib.parse
 
-
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
+''''
+LOCATION_PATH = Path.home() / '.pygnition.location.txt'
 IGNITION_PATH = LOCATION_PATH.read_text().strip()
 sys.path.insert(0, str(IGNITION_PATH))
+'''
 print(f'''<html><body>
 <p>Running <code>{Path(__file__).name}</code> ...</p>
 ''')
@@ -29,24 +32,29 @@ print(f'''<html><body>
 # # print('<!DOCTYPE html>')
 # print(f'''<html><body><p>Running <code>{__file__}</code></p>''')
 
+
+
 try:
-    from ignition.imports import *
-    print('<p><code>ignition</code> imported successfully.</p>')
+    from pygnition.picts import *
+#    from pygnition.program import *
+#    from pygnition.settings import *
+#    from pygnition.where import PYGNITION_DIRECTORY
+    print('<p><code>pygnition</code> imported successfully.</p>')
 except ModuleNotFoundError:
     print(f"""<pre style="color: red; font-weight: bold">
 ERROR: Program module not found!
-IGNITION_PATH={IGNITION_PATH}
+
     </pre>
     """)
 
-from ignition.configure import *
-print(f'<p>{CHECK_PICT}<code>configure</code> module imported successfully.</p>')
+# from pygnition.configure import *
+# print(f'<p>{CHECK_PICT}<code>configure</code> module imported successfully.</p>')
 
-from ignition.lumberjack import *
-print(f'<p>{CHECK_PICT}<code>lumberjack</code> imported successfully.</p>')
+# from pygnition.lumberjack import *
+# print(f'<p>{CHECK_PICT}<code>lumberjack</code> imported successfully.</p>')
 
-from ignition.environment import *
-print(f'<p>{CHECK_PICT}<code>environment</code> imported successfully.</p>')
+# from pygnition.environment import *
+# print(f'<p>{CHECK_PICT}<code>environment</code> imported successfully.</p>')
 
 def get_cgi_params(single_values: bool = False) -> dict:
     """Return CGI params as a dictionary (works for GET and POST)."""
@@ -91,6 +99,12 @@ class CGISettings():
 
     def output(self):
         print(f"""<p><code>cgignition</code> parameters:</p><pre style="font-weight: bold">
+Settings:
+
+
+
+Parameters:
+
 {pformat(self.params)}
 </pre>
 """)
@@ -102,8 +116,8 @@ class CGISettings():
 if __name__ == '__main__':
     print(f'<p><code>{sys.argv=}</code></p>')
 
-    settings = CGISettings()
+#    settings = CGISettings()
 
-    settings.output()
+#    settings.output()
     
     print(f'<p><code>{Path(__file__).name}</code> execution complete.</p></body></html>')

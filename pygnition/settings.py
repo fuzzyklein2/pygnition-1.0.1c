@@ -17,6 +17,7 @@ import logging
 import os
 from pathlib import Path
 from pprint import pformat
+import shutil
 from types import SimpleNamespace
 
 # try:
@@ -26,14 +27,14 @@ from types import SimpleNamespace
 #     from .lumberjack import *
 # except ImportError:
 
-from ignition.arguments import parse_arguments
-from ignition.configure import configure
-from ignition.constants import DESCRIPTION, EPILOG, VERSION
-from ignition.environment import Environment
-from ignition.lumberjack import debug, error, info, setuplog, stop, warn
-from ignition.stdinput import get_piped_input
-from ignition.tools import mkdir
-from ignition.where import PROGRAM_NAME, PROJECT_DIR, RUNNING_CLI, \
+from pygnition.arguments import parse_arguments
+from pygnition.configure import configure
+from pygnition.constants import DESCRIPTION, EPILOG, VERSION
+from pygnition.environment import Environment
+from pygnition.lumberjack import debug, error, info, setuplog, stop, warn
+from pygnition.stdinput import get_piped_input
+from pygnition.tools import mkdir
+from pygnition.where import PYGNITION_DIRECTORY, PROGRAM_NAME, PROJECT_DIR, RUNNING_CLI, \
                            USER_DATA_DIR, USER_PREFS_DIR
 
 # breakpoint()
@@ -75,7 +76,7 @@ if CONFIG_FILES:
     CONFIG = configure(CONFIG_FILES).config
 else:
     mkdir(USER_DATA_DIR / 'etc')
-    shutil.copy2(IGNITION_DIR / 'etc/server.cfg', USER_DATA_DIR / 'etc/server.cfg')
+    shutil.copy2(PYGNITION_DIRECTORY / 'etc/server.cfg', USER_DATA_DIR / 'etc/server.cfg')
 
 if ARGS:
     if hasattr(ARGS, 'log'):
@@ -109,13 +110,36 @@ if INPUT: SETTINGS.update({'input', INPUT})
 class Settings(SimpleNamespace):
     def __init__(self, *args, **kwargs):
         super().__init__(**SETTINGS)
+        self.name = PROGRAM_NAME
         self.user_data = USER_DATA_DIR
+        self.config_files = CONFIG_FILES
+        self.app_dir = PROJECT_DIR
 
     def dumps(self):
-        return pformat(self)
+        d = {k: v for k, v in vars(ARGS).items() if k != 'args'}
+        return f'''
+Application directory: {self.app_dir}
+Data directory:        {self.user_data}
+
+Command line options:
+{pformat(d)}
+
+Command line arguments:
+{pformat(self.args)}
+
+    Defined in {ARGS_FILE}
+
+Environment variables:
+{ENV.dumps()}
+
+Configuration files:
+{pformat(self.config_files)}
+
+Configuration:
+{pformat(dict(CONFIG['DEFAULT']))}'''
 
     def dump(self):
-        debug(f"""{self.__class__.__name__} attributes:
+        debug(f"""{self.__class__.__name__} settings:
 {self.dumps()}
 """)
     

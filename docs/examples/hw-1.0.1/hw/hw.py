@@ -11,28 +11,24 @@ For more information, see:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-from pathlib import Path
-import sys
-
-#from rich import print as rp
-#
-DEBUG = not __debug__
-
-from ignition.lumberjack import *
-from ignition.program import Program
+from pygnition.picts import *
+from pygnition.program import Program
+from pygnition.lumberjack import info, warn
 
 class HW(Program):
     def __init__(self):
         super().__init__()
-        # self.debug(f'Initializing program {PROGRAM_NAME} ...')
-        # self.debug(f'{self.testing=}')
 
     def test(self):
-        self.warn(f'{self.name} is under construction!')
+        warn(f'{self.name} is under construction!')
+        self.dump()
+
+    def run(self):
+        super().run()
+        print(f'Hello, {GLOBE_AMERICA_PICT.strip()} !')
 
 if __name__ == '__main__':
     p = HW()
     if p.testing:
         p.test()
-    else:
-        p.run()
+    p.run()

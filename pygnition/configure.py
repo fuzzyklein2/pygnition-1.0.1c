@@ -13,16 +13,21 @@ For more information, see:
 https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-# from configparser import ConfigParser as CP
+from configparser import ConfigParser as CP
+from pathlib import Path
 
 # from rich import print as rp
 
-if __package__:
-    from .arguments import parse_arguments
-    from .stdinput import *
-else:
-    from arguments import parse_arguments
-    from stdinput import *
+# if __package__:
+#     from .arguments import parse_arguments
+#     from .stdinput import *
+# else:
+#     from arguments import parse_arguments
+#     from stdinput import *
+
+from pygnition.arguments import parse_arguments
+from pygnition.constants import NEWLINE
+from pygnition.stdinput import get_piped_input
 
 class Configuration():
     def __init__(self, files:list):

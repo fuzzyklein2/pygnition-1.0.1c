@@ -10,6 +10,7 @@ For more information, see:
     [GitHub](https://github.com/fuzzyklein2/workshop-0.0.1b)
 """
 
+import os
 from pathlib import Path
 import sys
 
@@ -26,23 +27,31 @@ from gi.repository import GdkPixbuf
 from gi.repository import GLib
 
 # try:
-#     from ignition.program import *
-#     from ignition.server import Server
+#     from pygnition.program import *
+#     from pygnition.server import Server
 # except (ImportError, ModuleNotFoundError):
 
-LOCATION_PATH = Path.home() / '.ignition/location.txt'
-IGNITION_PATH = LOCATION_PATH.read_text().strip()
-sys.path.insert(0, str(IGNITION_PATH))
+# LOCATION_PATH = Path.home() / '.pygnition.location.txt'
+# IGNITION_PATH = LOCATION_PATH.read_text().strip()
 
-from ignition.program import *
-from ignition.server import *
+# from ignition.where import PYGNITION_DIRECTORY
+
+# PYGNITION_DIRECTORY = os.environ["PYGNITION_DIRECTORY"]
+PYGNITION_DIRECTORY = (Path.home() / '.pygnition/location.txt').read_text().strip()
+print(f'Pygnition package location: {PYGNITION_DIRECTORY}')
+sys.path.insert(0, PYGNITION_DIRECTORY)
+print(f'First path in `sys.path`: {sys.path[0]}')
+
+from pygnition.program import Program
+from pygnition.server import Server
+from pygnition.where import PYGNITION_DIRECTORY
 
 class GTKApp(Program):
     def __init__(self):
         super().__init__()
-        debug(f'Running {PROGRAM_NAME}')
-        debug(f'{ARGS=}')
-        debug(f'{USER_DATA_DIR=}')
+        # debug(f'Running {PROGRAM_NAME}')
+        # debug(f'{ARGS=}')
+        # debug(f'{USER_DATA_DIR=}')
 
         self.srv = Server()
         self.srv.start()

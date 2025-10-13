@@ -19,3 +19,12 @@ output*
 
 # pip info
 *.egg-info
+
+# GIMP `.xcf` files
+*.xcf
+
+# ChatGPT's name for backup folders, apparently
+._*/
+
+# Calc's temp folders?
+.~*#

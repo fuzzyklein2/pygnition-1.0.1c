@@ -23,21 +23,22 @@ For more information, see:
 # import logging
 # from pathlib import Path
 
-# from ignition import Program
-# from ignition.tools import get_func_name
+# from pygnition.import Program
+# from pygnition.tools import get_func_name
 
 from argparse import ArgumentParser as AP
 from cmd import Cmd
 import logging
 from pathlib import Path
 import shlex
+import shutil
 
-from ignition.arguments import get_args
-from ignition.configure import configure
-from ignition.constants import EPILOG
-from ignition.lumberjack import debug, error, info, stop, warn
-from ignition.program import Program
-from ignition.settings import Settings
+from pygnition.arguments import get_args
+from pygnition.configure import configure
+from pygnition.constants import EPILOG
+from pygnition.lumberjack import debug, error, info, stop, warn
+from pygnition.program import Program
+from pygnition.settings import Settings
 
 class Driver(Cmd, Program):
 

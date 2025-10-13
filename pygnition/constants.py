@@ -17,10 +17,14 @@ This module:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-if __package__:
-    from .utils import *
-else:
-    from utils import *
+from pathlib import Path
+# if __package__:
+#     from .utils import *
+# else:
+#     from utils import *
+
+from pygnition.utils import get_docstring_from_file, grep, remove_tag
+from pygnition.where import PROGRAM_NAME, PROGRAM_PATH
 
 NEWLINE = '\n'
 HYPHEN = '-'
@@ -54,3 +58,6 @@ else:
     EPILOG = DOCSTR[-1]
 
 CWD = Path.cwd()
+
+if __name__ == '__main__':
+    pass
