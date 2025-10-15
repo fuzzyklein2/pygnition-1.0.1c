@@ -15,23 +15,18 @@ https://github.com/fuzzyklein2/workshop-0.0.1b
 
 import atexit
 
-# if __package__:
-#     from .settings import *
-# else:
-#     from settings import *
-
 from pygnition.lumberjack import debug, error, info, warn, stop
-from pygnition.picts import *
+from pygnition.picts import CHECK_PICT, WAVE_PICT
 from pygnition.settings import Settings
 
 class Program(Settings):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         atexit.register(self.shutdown)
     
     def run(self):
         debug(f'Running {self.name}')
-        if self.testing: self.test()
+        if self.testing: self.dump()
 
     def shutdown(self):
         if self.verbose:

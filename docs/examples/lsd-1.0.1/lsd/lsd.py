@@ -11,18 +11,16 @@ For more information, see:
     https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
+import os
 from pathlib import Path
 import sys
 
-DEBUG = not __debug__
-
-LOCATION_PATH = Path.home() / '.pygnition.location.txt'
-IGNITION_PATH = LOCATION_PATH.read_text().strip()
-
-sys.path.insert(0, str(IGNITION_PATH))
+from rich.columns import Columns
+from rich.console import Console
 
 from pygnition.files import File
-from pygnition.filter import *
+from pygnition.filter import Filter
+from pygnition.lumberjack import debug
 
 console = Console()
 

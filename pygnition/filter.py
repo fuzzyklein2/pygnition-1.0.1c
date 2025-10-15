@@ -13,22 +13,23 @@ For more information, see:
 https://github.com/fuzzyklein2/workshop-0.0.1b
 """
 
-try:
-    from .program import *
-except ImportError:
-    from program import *
+from pathlib import Path
+from pprint import pformat
+
+from .picts import DEBUG_PICT
+from .program import Program
 
 class Filter(Program):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.paths = [Path(f) for f in self.args]
-        if TESTING: print(f"""{DEBUG_PICT} Filter Paths:
+        if self.testing: print(f"""{DEBUG_PICT} Filter Paths:
 
 {pformat(self.paths)}
 """)
 
     def process_directory(self, d:Path):
-        if VERBOSE:
+        if self.verbose:
             print(f'{FOLDER_PICT}{"Processing" if self.args.recursive else "Skipping"} directory: {str(d)} ...')
         if self.recursive:
             for p in (d / f for f in os.listdir(d)):
@@ -38,11 +39,11 @@ class Filter(Program):
         return p.name.startswith('.')
 
     def process_file(self, p:Path):
-        if VERBOSE:
+        if self.verbose:
             print(f'Processing {str(p)} ...')
 
     def process_path(self, p:Path):
-        if VERBOSE:
+        if self.verbose:
             print(f"{GEAR_PICT}Processing {str(p)} ...")
             
         if not p.exists():
@@ -74,7 +75,7 @@ class Filter(Program):
 
     def run(self):
         # super().run()
-        if VERBOSE: print(f"{GEAR_PICT}Processing files ...")
+        if self.verbose: print(f"{GEAR_PICT}Processing files ...")
 
         for p in self.paths:
             self.process_path(p)
@@ -82,7 +83,8 @@ class Filter(Program):
         # print(f"{STOP_PICT}Execution complete.")
 
 if __name__ == '__main__':
-    if TESTING:
+    f = Filter()
+    if f.testing:
         info(f'Running {PROGRAM_NAME} ...')
         debug(f'Command line arguments:\n\n{pformat(ARGS.args)}\n')
     Filter().run()

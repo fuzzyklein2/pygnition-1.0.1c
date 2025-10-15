@@ -27,6 +27,7 @@ from pathlib import Path
 
 from pygnition.arguments import parse_arguments
 from pygnition.constants import NEWLINE
+from pygnition.picts import WARNING_PICT
 from pygnition.stdinput import get_piped_input
 
 class Configuration():

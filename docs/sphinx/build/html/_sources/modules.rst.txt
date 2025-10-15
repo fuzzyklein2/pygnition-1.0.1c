@@ -1,7 +1,7 @@
-ignition
+pygnition
 ========
 
 .. toctree::
    :maxdepth: 4
 
-   ignition
+   pygnition

@@ -6,19 +6,19 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = '🔥pygnition.'
+project = '🔥pygnition🔥'
 copyright = '2025, Russell Klein'
 author = 'Russell Klein'
 release = '1.0.1'
 
 # -- Add the module to `sys.path` --------------------------------------------
-from pathlib import Path
-import sys
+# from pathlib import Path
+# import sys
 
-IGNITION_DATA = Path.home() / '.pygnition.
-LOCATION_FILE = IGNITION_DATA / 'location.txt'
-LOCATION = LOCATION_FILE.read_text()
-sys.path.insert(0, LOCATION)
+# IGNITION_DATA = Path.home() / '.pygnition'
+# LOCATION_FILE = IGNITION_DATA / 'location.txt'
+# LOCATION = LOCATION_FILE.read_text()
+# sys.path.insert(0, LOCATION)
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

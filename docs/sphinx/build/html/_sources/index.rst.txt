@@ -1,9 +1,9 @@
-.. 🔥ignition🔥 documentation master file, created by
+.. 🔥pygnition🔥 documentation master file, created by
    sphinx-quickstart on Fri Oct 10 15:06:22 2025.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to 🔥ignition🔥's documentation!
+Welcome to 🔥pygnition🔥's documentation!
 ========================================
 
 .. toctree::

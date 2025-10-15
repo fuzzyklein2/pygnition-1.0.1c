@@ -1,0 +1,36 @@
+# Configuration file for pigar
+# See: https://github.com/damnever/pigar
+
+[project]
+# Directories and files to ignore when scanning imports
+without = [
+    "tests",            # unit tests
+    "test",             # alternate naming
+    "examples",         # demo code
+    "docs",             # documentation sources
+    "build",            # build artifacts
+    "dist",             # distribution folders
+    ".venv",            # virtual environment
+    "venv",             # common venv name
+    "__pycache__",      # compiled Python cache
+    "scripts",          # helper scripts (optional)
+    "setup.py",         # setup script itself
+    "setup.cfg",        # setup config file
+    "pyproject.toml",   # project metadata, not source
+    "notebooks",        # if you use Jupyter
+    "*.ipynb"
+]
+
+# Whether to include packages that can’t be resolved to PyPI
+# (If false, unknown imports are ignored.)
+allow_not_found = false
+
+# Whether to include editable installs (pip -e)
+include_editable = false
+
+# Output file name for generated requirements
+output = "requirements.in"
+
+# Sort alphabetically for clean diffs
+sort = true
+

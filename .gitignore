@@ -28,3 +28,6 @@ output*
 
 # Calc's temp folders?
 .~*#
+
+.venv/
+

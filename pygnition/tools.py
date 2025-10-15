@@ -18,7 +18,7 @@ This module:
 """
 
 # from argparse import ArgumentParser as AP
-from functools import singledispatch
+from functools import singledispatch, wraps
 # from io import StringIO
 import logging
 import os

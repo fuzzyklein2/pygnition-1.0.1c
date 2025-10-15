@@ -64,11 +64,11 @@ class WS(Driver):
 
     @get_func_name
     def do_create(self, line:str):
-        self.do_command(self.current_cmd, line)
+        self.command(self.current_cmd, line)
 
     @get_func_name
     def do_compile(self, line:str):
-        self.do_command(self.current_cmd, line)
+        self.command(self.current_cmd, line)
         
     @property
     def project(self):

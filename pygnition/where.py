@@ -31,6 +31,7 @@ import os
 from pathlib import Path
 import sys
 
+from pygnition.auto_doc import auto_doc
 from pygnition.imports import import_chain
 
 # ---------------------------
@@ -168,6 +169,7 @@ VERBOSE = bool({'-v', '--verbose'}.intersection(sys.argv))
 WARNINGS = bool({'-w', '--warnings'}.intersection(sys.argv))
 TESTING = bool({'-t', '--test'}.intersection(sys.argv))
 
+@auto_doc()
 def display_where_info():
     """Test this module from any PYGNITION_DIRECTORY imports it."""
     print(f"Running: {PROGRAM_NAME}")

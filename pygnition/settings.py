@@ -48,8 +48,9 @@ ARGS_FILE = PROJECT_DIR / 'data/std_opts.csv'
 # CONFIG_FILE = PROJECT_DIR / 'etc/config.ini'
 # LOG_FILE = PROJECT_DIR / f'logs/{PROGRAM_NAME}.log'
 if not USER_PREFS_DIR.exists():
-    mkdir(USER_PREFS_DIR)
+    shutil.copytree(PROJECT_DIR / 'etc', USER_PREFS_DIR)
 CONFIG_FILES = [USER_PREFS_DIR / s for s in os.listdir(USER_PREFS_DIR) if Path(s).suffix in {'.ini', '.cfg'}]
+
 LOG_FILE = USER_DATA_DIR / f'logs/{PROGRAM_NAME}.log'
 
 # assert(PROJECT_DIR.exists())
@@ -74,10 +75,10 @@ ENV = Environment()
 CONFIG = None
 if CONFIG_FILES:
     CONFIG = configure(CONFIG_FILES).config
-else:
-    mkdir(USER_DATA_DIR / 'etc')
-    shutil.copy2(PYGNITION_DIRECTORY / 'etc/server.cfg', USER_DATA_DIR / 'etc/server.cfg')
-
+#else:
+#    if not USER_PREFS_DIR.exists():
+#        shutil.copytree(PROJECT_DIR / 'etc', USER_PREFS_DIR)
+#
 if ARGS:
     if hasattr(ARGS, 'log'):
         if ARGS.log:
@@ -116,7 +117,7 @@ class Settings(SimpleNamespace):
         self.app_dir = PROJECT_DIR
 
     def dumps(self):
-        d = {k: v for k, v in vars(ARGS).items() if k != 'args'}
+        d = {k: v for k, v in vars(ARGS).items() if k != 'args'} if ARGS else 'None'
         return f'''
 Application directory: {self.app_dir}
 Data directory:        {self.user_data}
@@ -125,7 +126,7 @@ Command line options:
 {pformat(d)}
 
 Command line arguments:
-{pformat(self.args)}
+{pformat(self.args) if ARGS else 'None'}
 
     Defined in {ARGS_FILE}
 
@@ -136,7 +137,7 @@ Configuration files:
 {pformat(self.config_files)}
 
 Configuration:
-{pformat(dict(CONFIG['DEFAULT']))}'''
+{pformat(dict(CONFIG['DEFAULT']) if CONFIG else 'WARNING! Configuration file does not exist!')}'''
 
     def dump(self):
         debug(f"""{self.__class__.__name__} settings:

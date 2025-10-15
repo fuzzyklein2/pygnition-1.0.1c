@@ -97,7 +97,7 @@ class Driver(Cmd, Program):
         # mkdir(self.temp_dir)
 
 
-    def do_command(self, name:str, line:str):
+    def command(self, name:str, line:str):
         debug(f'''Doing command.
 {name=}
 {line=}
@@ -147,6 +147,7 @@ class Driver(Cmd, Program):
         super().cmdloop()
 
     def do_quit(self, args):
+        """Exit the application."""
         return True
 
     def preloop(self):

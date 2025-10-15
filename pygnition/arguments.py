@@ -14,10 +14,10 @@ This module:
 """
 
 from argparse import ArgumentParser as AP
-
-import pandas as pd
 from pathlib import Path
 import sys
+
+import pandas as pd
 
 def get_args(p:Path|str)->list[list[list|dict]]|None:
     """ Look for arguments in a CSV.

@@ -41,6 +41,8 @@ PROGRAM = PROGRAM_NAME
 VERSION = None
 MAIN_FILE = PROGRAM_PATH
 
+# TODO: This stretch should be revised to parse the new-style docstrings,
+#       or just get the version from PROJECT_PATH.
 try:
     DOCSTR = get_docstring_from_file(MAIN_FILE)
     DOCSTR_MISSING = not bool(DOCSTR)
